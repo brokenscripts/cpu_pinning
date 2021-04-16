@@ -1,3 +1,4 @@
+- [NUMA Information](#numa-information)
 - [CPU Pinning Generic/VFIO](#cpu-pinning-genericvfio)
   - [CPU topology](#cpu-topology)
     - [Tools](#tools)
@@ -16,6 +17,12 @@
   - [`lstopo` PCI layout](#lstopo-pci-layout)
   - [Manual (via /sys) PCI layout](#manual-via-sys-pci-layout)
     - [Manual method example](#manual-method-example)
+
+# NUMA Information  
+NUMA, or Non-Uniform Memory Access, is a shared memory architecture that describes the placement of main memory modules with respect to processors in a multiprocessor system. Like most every other processor architectural feature, ignorance of NUMA can result in subpar application memory performance (Reference: Optimizing applications for Numa. David Ott. https://software.intel.com/en-us/articles/optimizing-applications-for-numa)<sup>[7]</sup>  
+
+When running workloads on NUMA hosts it is important that the CPUs executing the processes are on the same node as the memory used. This ensures that all memory accesses are local to the NUMA node and thus not consuming the limited cross-node memory bandwidth, for example via Intel QuickPath Interconnect (QPI) links, which adds latency to memory accesses.  
+
 
 # CPU Pinning Generic/VFIO  
 ***This guide is related to VFIO and/or CPU pinning for NICs.***  
@@ -173,6 +180,7 @@ CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE    MAXMHZ    MINMHZ
 #### lstopo (`hwloc` package)  
 The package `hwloc` can visually show you the topology of your CPU.<sup>[2]</sup>  
 To find the topology for your CPU run **`lstopo`** for a graphical window or **`lstopo --of txt`** for a CLI picture<sup>[2]</sup>  
+**Note: If you only have `lstopo-no-graphics`, you can render a graphic to the terminal, IF YOU WANT A PICTURE, by using `lstopo-no-graphics -p --of txt`**  
 
 ![](images/2021-04-16-14-24-41.png)  
 
@@ -339,6 +347,7 @@ This time there is multiple NUMA nodes and so it **will show** the NUMA node whe
 
 In a multi-NUMA layout, its easier to identify which NUMA the NIC is tied to:  
 Using a `lstopo` output from [Open MPI,Xeon](https://www.open-mpi.org/projects/hwloc/lstopo/images/2XeonE5v3.v1.11.png):  
+**Note: If you only have `lstopo-no-graphics`, you can render a graphic to the terminal, IF YOU WANT A PICTURE, by using `lstopo-no-graphics -p --of txt`**  
 > 2x Xeon Haswell-EP E5-2683v3 (from 2014, with hwloc v1.11).
 > Processors are configured in Cluster-on-Die mode which shows 2 NUMA nodes per package
 ![](images/2021-04-16-14-56-45.png)  
@@ -394,3 +403,4 @@ $ cat /sys/class/net/eno1/device/local_cpus
 [4]: https://linustechtips.com/topic/1156185-vfio-gpu-pass-though-w-looking-glass-kvm-on-ubuntu-1904/
 [5]: http://docplayer.net/5271505-Network-function-virtualization-virtualized-bras-with-linux-and-intel-architecture.html
 [6]: https://stackoverflow.com/questions/28307151/is-cpu-access-asymmetric-to-network-card
+[7]: https://access.redhat.com/documentation/en-us/reference_architectures/2017/html/deploying_mobile_networks_using_network_functions_virtualization/performance_and_optimization  
