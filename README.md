@@ -17,6 +17,7 @@
   - [`lstopo` PCI layout](#lstopo-pci-layout)
   - [Manual (via /sys) PCI layout](#manual-via-sys-pci-layout)
     - [Manual method example](#manual-method-example)
+- [Credits](#credits)  
 
 # NUMA Information  
 NUMA, or Non-Uniform Memory Access, is a shared memory architecture that describes the placement of main memory modules with respect to processors in a multiprocessor system. Like most every other processor architectural feature, ignorance of NUMA can result in subpar application memory performance (Reference: Optimizing applications for Numa. David Ott. https://software.intel.com/en-us/articles/optimizing-applications-for-numa)<sup>[7]</sup>  
@@ -416,6 +417,14 @@ $ cat /sys/class/net/eno1/device/local_cpus
 00000000,11111111,11111111
 ```
 
+# Credits
+- 1 - [https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF#CPU_pinning](https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF#CPU_pinning)  
+- 2 - [https://gitlab.com/Karuri/vfio/#tool-2-hwloc-for-a-more-in-depth-understanding](https://gitlab.com/Karuri/vfio/#tool-2-hwloc-for-a-more-in-depth-understanding)  
+- 3 - [https://github.com/bryansteiner/gpu-passthrough-tutorial#----cpu-pinning](https://github.com/bryansteiner/gpu-passthrough-tutorial#----cpu-pinning)  
+- 4 - [https://linustechtips.com/topic/1156185-vfio-gpu-pass-though-w-looking-glass-kvm-on-ubuntu-1904/](https://linustechtips.com/topic/1156185-vfio-gpu-pass-though-w-looking-glass-kvm-on-ubuntu-1904/)  
+- 5 - [http://docplayer.net/5271505-Network-function-virtualization-virtualized-bras-with-linux-and-intel-architecture.html](http://docplayer.net/5271505-Network-function-virtualization-virtualized-bras-with-linux-and-intel-architecture.html)  
+- 6 - [https://stackoverflow.com/questions/28307151/is-cpu-access-asymmetric-to-network-card](https://stackoverflow.com/questions/28307151/is-cpu-access-asymmetric-to-network-card)  
+- 7 - [https://access.redhat.com/documentation/en-us/reference_architectures/2017/html/deploying_mobile_networks_using_network_functions_virtualization/performance_and_optimization](https://access.redhat.com/documentation/en-us/reference_architectures/2017/html/deploying_mobile_networks_using_network_functions_virtualization/performance_and_optimization)  
 
 
 
