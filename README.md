@@ -45,13 +45,25 @@ Most modern CPUs support hardware multitasking, also known as hyper-threading on
 ### Tools
 
 #### lscpu (`util-linux` package)  
-To find the topology for your CPU run **`lscpu -e`**  
+To find the topology for your CPU run **`lscpu` and `lscpu -e`**  
 > **Note**: Pay special attention to the 4th column "**CORE**" as this shows the association of the Physical/Logical CPU cores  
+
+**Note: For NIC CPU pinning, you care about running regular `lscpu` in order to find out NUMA node count and which CPUs are on each NUMA.**  
 
 
 ##### AMD example<sup>[1]</sup>
-`lscpu -e` on a single socket 6c/12t Ryzen 5 1600: 
+`lscpu` and `lscpu -e` on a single socket 6c/12t Ryzen 5 1600: 
 ```bash
+# lscpu
+CPU(s):                          12
+On-line CPU(s) list:             0-11
+Thread(s) per core:              2
+Core(s) per socket:              6
+Socket(s):                       1
+NUMA node(s):                    1
+NUMA node0 CPU(s):               0-11
+
+# lscpu -e
 CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE MAXMHZ    MINMHZ
 0   0    0      0    0:0:0:0       yes    3800.0000 1550.0000       # Core 0 sequential, on CPU 0 & CPU 1
 1   0    0      0    0:0:0:0       yes    3800.0000 1550.0000       # Core 0 sequential, on CPU 0 & CPU 1
@@ -72,8 +84,18 @@ CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE MAXMHZ    MINMHZ
 Notice that in the AMD case here, **AMD Core 0** is sequential with **CPU 0 & CPU 1**.  
 
 ##### Intel i7 example<sup>[1]</sup>
-`lscpu -e` on a single socket 6c/12t Intel 8700k: 
+`lscpu` and `lscpu -e` on a single socket 6c/12t Intel 8700k: 
 ```bash
+# lscpu
+CPU(s):                          12
+On-line CPU(s) list:             0-11
+Thread(s) per core:              2
+Core(s) per socket:              6
+Socket(s):                       1
+NUMA node(s):                    1
+NUMA node0 CPU(s):               0-11
+
+# lscpu -e
 CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE MAXMHZ    MINMHZ
 0   0    0      0    0:0:0:0       yes    4600.0000 800.0000        # Core 0 non-sequential, on CPU 0 & CPU 6
 1   0    0      1    1:1:1:0       yes    4600.0000 800.0000
